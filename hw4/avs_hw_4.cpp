@@ -44,15 +44,15 @@ void searchForTreasure(int numOfThreads)
 	{
 #pragma omp critical
 		{
-			cout << "Team " << omp_get_thread_num() << " started searching "<< endl;
+			cout << "Team " << omp_get_thread_num() << " started searching " << endl;
 		}
 
 #pragma omp for 
 		for (int i = 0; i < numOfSectors; i++)
 		{
-#pragma omp critical
+			if (!localFlag)
 			{
-				if (!localFlag)
+#pragma omp critical
 				{
 					if (globalFlag)
 					{
@@ -63,7 +63,7 @@ void searchForTreasure(int numOfThreads)
 					if (islandSectors[i] && !globalFlag)
 					{
 						globalFlag = true;
-						cout << "Team " << omp_get_thread_num() << " has found treasure in sector " << i << " and stopped searching"<< endl ;
+						cout << "Team " << omp_get_thread_num() << " has found treasure in sector " << i << " and stopped searching" << endl;
 						localFlag = true;
 					}
 				}
